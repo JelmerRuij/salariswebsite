@@ -6,28 +6,48 @@
     <title>Urenregistratie</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="flex items-center justify-center h-screen bg-gray-200">
-    <form action="./php/save_hours.php" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="date">
-                Datum
-            </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="date" name="date" />
+<body class="p-6">
+    <form action="submit_hours.php" method="POST" class="space-y-4">
+        <div>
+            <label for="date" class="block text-sm font-medium text-gray-700">Datum</label>
+            <input type="date" name="date" id="date" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
         </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="hours">
-                Aantal uren
-            </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" name="hours" />
+        <div>
+            <label for="hours" class="block text-sm font-medium text-gray-700">Aantal uren</label>
+            <input type="number" name="hours" id="hours" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
         </div>
-        <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
-                Beschrijving
-            </label>
-            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" name="description"></textarea>
+        <div>
+            <label for="description" class="block text-sm font-medium text-gray-700">Beschrijving</label>
+            <textarea name="description" id="description" rows="3" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
         </div>
-        <div class="flex items-center justify-between">
-            <input class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="submit" value="Opslaan" />
+        <div>
+            <label for="employer" class="block text-sm font-medium text-gray-700">Werkgever</label>
+            <select id="employer" name="employer" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <?php
+                // Vervang 'user_id' door de daadwerkelijke user_id van de ingelogde gebruiker
+                $result = mysqli_query($conn, "SELECT * FROM employers WHERE user_id = 'user_id'");
+                while($row = mysqli_fetch_assoc($result)){
+                    echo "<option value='".$row['id']."'>".$row['name']."</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div>
+            <label for="bonus" class="block text-sm font-medium text-gray-700">Toeslagen</label>
+            <select id="bonus" name="bonus" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <?php
+                // Vervang 'user_id' door de daadwerkelijke user_id van de ingelogde gebruiker
+                $result = mysqli_query($conn, "SELECT * FROM bonuses WHERE user_id = 'user_id'");
+                while($row = mysqli_fetch_assoc($result)){
+                    echo "<option value='".$row['id']."'>".$row['description']."</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Submit
+            </button>
         </div>
     </form>
 </body>
